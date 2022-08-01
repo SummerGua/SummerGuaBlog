@@ -1,21 +1,27 @@
 <script setup lang="ts">
 const router = useRouter()
 const go = (page: string) => {
-    router.push(`${page}`)
+  router.push(`${page}`)
 }
 </script>
 
 <template>
   <div>
-    <p m-b-3>
-      <a text-size-6>
+    <p m-t-4 m-b-3>
+      <a text-size-8>
         SummerGua
       </a>
     </p>
     <ul text-size-4>
-      <li cursor-pointer>Articles</li>
-      <li cursor-pointer @click="go('Components')">Components</li>
-      <li cursor-pointer @click="go('About')">About</li>
+      <li cursor-pointer @click="go('Articles')">
+        Articles
+      </li>
+      <li cursor-pointer @click="go('Components')">
+        Components
+      </li>
+      <li cursor-pointer @click="go('About')">
+        About
+      </li>
     </ul>
   </div>
 </template>
