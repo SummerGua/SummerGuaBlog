@@ -11,8 +11,8 @@ const go = (component: string) => {
       <li @click="go('Drag')">
         1. Drag
       </li>
-      <li><a>2. Time Pointer</a></li>
-      <li><a>3. Class Schedule</a></li>
+      <li><a href="https://timepointer.netlify.app/" target="_blank" underline>2. Time Pointer [open in Netlify↗]</a></li>
+      <li><a href="https://nnuclass.netlify.app" target="_blank" underline>3. Class Schedule [open in Netlify↗]</a></li>
     </ol>
   </div>
 </template>
@@ -20,5 +20,6 @@ const go = (component: string) => {
 <style scoped>
 li {
   cursor: pointer;
+  margin: 1rem;
 }
 </style>

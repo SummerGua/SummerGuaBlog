@@ -1,13 +1,13 @@
 <script setup lang="ts">
 let startMoving: boolean = $ref(false)
 let lastTop: number = $ref(0) // result top value
-let initTop: number = $ref(0)
 let elementY: number = $ref(0)
+let elementHeight: number = $ref(0)
 let parentY: number = $ref(0)
+let parentHeight: number = $ref(0)
 let activeId: number = $ref(-1)
 let target: HTMLElement = $ref()
 let duplication: HTMLElement = $ref()
-let flag: boolean = $ref(true)
 
 const targetStyle: string = $computed(() => `z-index:1001; opacity: 50%; top: ${lastTop}px; position: ${startMoving ? 'absolute' : 'relative'}`)
 
@@ -28,7 +28,7 @@ dataList = [
   {
     id: 2,
     text: '333',
-  },
+  }
 ]
 
 const mousedown = (id: number, e: MouseEvent) => {
@@ -36,9 +36,10 @@ const mousedown = (id: number, e: MouseEvent) => {
   activeId = id
   target = e.target as HTMLElement
   elementY = e.pageY - target.getBoundingClientRect().top
+  elementHeight = target.getBoundingClientRect().bottom - target.getBoundingClientRect().top
   parentY = target.parentElement?.getBoundingClientRect().top!
+  parentHeight = target.parentElement?.getBoundingClientRect().bottom! - target.parentElement?.getBoundingClientRect().top!
   lastTop = target.getBoundingClientRect().top - parentY
-  initTop = lastTop
 
   // create a duplication as a placeholder
   duplication = document.createElement('li')
@@ -53,27 +54,11 @@ const mousedown = (id: number, e: MouseEvent) => {
 }
 
 const onMouseMove = (e: MouseEvent) => {
-  if (startMoving && flag) {
-    lastTop = (e.pageY - elementY - parentY) >= 0 ? (e.pageY - elementY - parentY) : 0
-    // check position and change data
-    const preSibling = target.previousElementSibling?.previousElementSibling
-    const nextSibling = target.nextElementSibling?.nextElementSibling
-    if (preSibling) {
-      if (lastTop <= (preSibling.getBoundingClientRect().top + preSibling.scrollHeight)) {
-        flag = false
-        // swap
-        console.log('swap?')
-        flag = true
-      }
-    }
-    else if (nextSibling) {
-      if ((lastTop + elementY + parentY) >= nextSibling.getBoundingClientRect().top) {
-        flag = false
-        // swap
-        console.log('swap?')
-        flag = true
-      }
-    }
+  if (startMoving) {
+    const temp = e.pageY - parentY - elementY
+    if (temp < 0) lastTop = 0
+    else if (temp > parentHeight - elementHeight) lastTop = parentHeight - elementHeight
+    else lastTop = temp
   }
 }
 
@@ -96,13 +81,11 @@ document.addEventListener('mouseup', () => {
         }}
       </li>
     </ul>
-    <pre text-2 text-start w-40>
-    dataList: {{ JSON.stringify(dataList, null, 2) }}
-  </pre>
+    <pre text-3 text-start w-40>{{ JSON.stringify(dataList, null, 2) }}</pre>
   </div>
   <div>
-    activeId: {{ activeId }}<br />
-    lastTop: {{ lastTop + elementY + parentY }}px
+    lastTop: {{ lastTop }}px
+    parentHeight {{parentHeight}}
   </div>
 </template>
 
