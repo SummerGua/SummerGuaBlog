@@ -6,8 +6,8 @@ const go = (page: string) => {
 </script>
 
 <template>
-  <div>
-    <p m-t-4 m-b-3>
+  <div p-4>
+    <p m-b-3>
       <a text-size-8>
         SummerGua
       </a>
@@ -29,5 +29,9 @@ const go = (page: string) => {
 <style scoped>
 li {
   margin: 1rem;
+}
+
+body {
+  overflow: hidden;
 }
 </style>

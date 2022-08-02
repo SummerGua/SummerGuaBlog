@@ -8,6 +8,13 @@ let duplication: HTMLElement = $ref()
 let elementListRect: DOMRect[] = $ref([])
 let elementList: Array<HTMLElement | Element> = $ref([])
 let parent: HTMLElement = $ref()
+let showTip: boolean = $ref(false)
+
+onBeforeMount(() => {
+  if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    showTip = true
+  }
+})
 
 const duplicationStyle: string = $computed(
   () =>
@@ -82,6 +89,7 @@ const mousedown = (id: number, e: MouseEvent) => {
   startMoving = true
   activeId = id
   target = e.target as HTMLElement
+
   elementY = e.pageY - target.getBoundingClientRect().top
   elementX = e.pageX - target.getBoundingClientRect().left
 
@@ -89,10 +97,10 @@ const mousedown = (id: number, e: MouseEvent) => {
   setDupPosition(duplication, e.clientX - elementX, e.clientY - elementY)
 
   document.body.appendChild(duplication)
-  document.addEventListener('mousemove', (e) => onMouseMove(e))
+  document.addEventListener('mousemove', (e) => handleMouseMove(e))
 }
 
-const onMouseMove = (e: MouseEvent) => {
+const handleMouseMove = (e: MouseEvent) => {
   if (startMoving) {
     setDupPosition(duplication, e.clientX - elementX, e.clientY - elementY)
     for (const item of elementListRect) {
@@ -139,15 +147,15 @@ document.addEventListener('mouseup', (e) => {
   startMoving = false
   activeId = -1
   duplication.remove()
-  document.removeEventListener('mousemove', onMouseMove)
+  document.removeEventListener('mousemove', handleMouseMove)
 })
 </script>
 
 <template>
   <div w-full p-10 flex flex-row justify-center>
-    <ul id="ul" w-40 relative>
-      <li h-8 lh-8 v-for="item in dataList" :key="item.id" w-40 :class="[activeId === item.id ? 'selected' : '']"
-        @mousedown="mousedown(item.id, $event)">
+    <ul border-1 border-dotted id=" ul" w-40 relative m-1 p-1>
+      <li dark:color-gray-2 color-white h-8 lh-8 v-for="item in     dataList" :key="item.id" w-38
+        :class="[activeId === item.id ? 'selected' : '']" @mousedown="mousedown(item.id, $event)">
         {{
             item.text
         }}
@@ -155,15 +163,12 @@ document.addEventListener('mouseup', (e) => {
     </ul>
     <pre text-3 text-start w-40>{{ JSON.stringify(dataList, null, 2) }}</pre>
   </div>
+  <div color-red v-if="showTip">Mobile device detected.<br/>The list only supports mouse.</div>
 </template>
 
 <style scoped>
-ul {
-  background-color: aliceblue;
-}
-
 li {
-  background-color: rgb(191, 254, 233);
+  background-color: rgb(37, 148, 111);
   margin-bottom: 0.5rem;
   user-select: none;
 }
