@@ -11,7 +11,7 @@ let parent: HTMLElement = $ref()
 let showTip: boolean = $ref(false)
 
 onBeforeMount(() => {
-  if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     showTip = true
   }
 })
@@ -98,6 +98,13 @@ const mousedown = (id: number, e: MouseEvent) => {
 
   document.body.appendChild(duplication)
   document.addEventListener('mousemove', (e) => handleMouseMove(e))
+  document.addEventListener('mouseup', (e) => {
+    // change dataList to update view
+    startMoving = false
+    activeId = -1
+    duplication.remove()
+    document.removeEventListener('mousemove', handleMouseMove)
+  })
 }
 
 const handleMouseMove = (e: MouseEvent) => {
@@ -140,21 +147,12 @@ const handleMouseMove = (e: MouseEvent) => {
     }
   }
 }
-
-document.addEventListener('mouseup', (e) => {
-  // change dataList to update view
-  getElementList()
-  startMoving = false
-  activeId = -1
-  duplication.remove()
-  document.removeEventListener('mousemove', handleMouseMove)
-})
 </script>
 
 <template>
   <div w-full p-10 flex flex-row justify-center>
     <ul border-1 border-dotted id="ul" w-40 relative m-1 p-1>
-      <li dark:color-gray-2 color-white h-8 lh-8 v-for="item in     dataList" :key="item.id" w-38
+      <li dark:color-gray-2 color-white h-8 lh-8 v-for="item in dataList" :key="item.id" w-38
         :class="[activeId === item.id ? 'selected' : '']" @mousedown="mousedown(item.id, $event)">
         {{
             item.text
@@ -163,7 +161,7 @@ document.addEventListener('mouseup', (e) => {
     </ul>
     <pre text-3 text-start w-40>{{ JSON.stringify(dataList, null, 2) }}</pre>
   </div>
-  <div color-red v-if="showTip">Mobile device detected.<br/>The list only supports mouse.</div>
+  <div color-red v-if="showTip">Mobile device detected.<br />The list only supports mouse.</div>
 </template>
 
 <style scoped>
