@@ -15,7 +15,7 @@ const go = (component: string) => {
         2. Class Schedule <a href="https://nnuclass.netlify.app" target="_blank"><span cursor-pointer underline text-gray-4>[open in Netlify↗]</span></a>
         </li>
       <li @click="go('Drag')" cursor-pointer>3. Drag</li>
-      <li @click="go('Flower')" cursor-pointer>4. Flower</li>
+      <li @click="go('Grass')" cursor-pointer>4. Grass</li>
     </ol>
   </div>
 </template>

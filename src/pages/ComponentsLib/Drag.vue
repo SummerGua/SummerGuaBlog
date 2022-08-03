@@ -44,6 +44,14 @@ dataList = [
   {
     id: 3,
     text: '444',
+  },
+  {
+    id: 4,
+    text: '555',
+  },
+  {
+    id: 5,
+    text: '666',
   }
 ]
 
@@ -151,7 +159,7 @@ const handleMouseMove = (e: MouseEvent) => {
 
 <template>
   <div w-full p-10 flex flex-row justify-center>
-    <ul border-1 border-dotted id="ul" w-40 relative m-1 p-1>
+    <ul border-1 border-dotted id="ul" h-60 w-40 relative m-1 p-1>
       <li dark:color-gray-2 color-white h-8 lh-8 v-for="item in dataList" :key="item.id" w-38
         :class="[activeId === item.id ? 'selected' : '']" @mousedown="mousedown(item.id, $event)">
         {{
