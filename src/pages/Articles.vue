@@ -1,5 +1,5 @@
 <template>
-  <div>
-    Articles
+  <div pt-4>
+    No articles added
   </div>
 </template>
