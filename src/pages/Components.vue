@@ -20,6 +20,7 @@ const go = (component: string) => {
       <li @click="go('Grass')" cursor-pointer>4. Grass</li>
       <li @click="go('VirtualList')" cursor-pointer>5. VirtualList</li>
       <li @click="go('HighlightComment')" cursor-pointer>6. HighlightComment</li>
+      <li @click="go('UploadFile')" cursor-pointer>7. UploadFile</li>
     </ol>
   </div>
 </template>
