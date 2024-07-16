@@ -5,7 +5,7 @@ const refresh = () => {
 
 onMounted(() => {
   const PI = Math.PI
-  const canvas = document.getElementById('canvas')! as HTMLCanvasElement
+  const canvas = document.getElementById('canvas') as HTMLCanvasElement
   const ctx = canvas.getContext('2d')!
 
   function getRandomBetween(min: number, max: number): number {
